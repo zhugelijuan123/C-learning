@@ -1,0 +1,56 @@
+
+
+C++中的类可以定义默认构造函数operator()，利用这个特性，我们可以定义$\lambda$函数。一个例子：
+
+#include <iostream>
+#include <stdlib.h>     /* srand, rand */
+
+using namespace std;
+
+class Sort{
+public:
+    void operator() (int *arr, int N){
+        if (N<=1) 
+            return;
+        for(int i=1;i<N;i++){
+            for(int j=0;j<i;j++){
+                if(arr[i]<=arr[j]){
+                    int tmp = arr[i];
+                    for(int k=i;k>=j+1;k--){
+                        arr[k] = arr[k-1];
+                    }
+                    arr[j] = tmp;
+                }
+
+            }
+        }
+    }
+};
+
+void test(int i, Sort obj){
+    srand(i);
+    int N = 20;
+    int array[20];
+    for(int j=0;j<N;j++){
+        array[j] = rand()%100;
+    }
+    cout << "Test Case "<<i<<endl;
+    for(int i=0;i<N;i++){
+        cout << array[i] << ' ';
+    }
+    cout << endl;
+    obj(array,N);
+    for(int i=0;i<N;i++){
+        cout << array[i] << ' ';
+    }
+    cout << endl;
+}
+
+int main(){
+    Sort obj = Sort();
+    for(int i=0;i<20;i++){
+        test(i,obj);
+    }
+    return 0;
+}
+
