@@ -1,0 +1,50 @@
+
+The official description for vector.push_back() is as follows.
+
+public member function
+<vector>
+std::vector::push_back
+
+void push_back (const value_type& val);
+
+Add element at the end
+Adds a new element at the end of the vector, after its current last element. The content of val is copied (or moved) to the new element.
+
+This effectively increases the container size by one, which causes an automatic reallocation of the allocated storage space if -and only if- the new vector size surpasses the current vector capacity.
+
+
+Although the argument of push_back is passed by reference, inside vector make a copy of the argument. The following codes demonstrate this idea.
+
+#include <iostream>
+#include <vector>
+using namespace std;
+
+typedef std::vector<std::vector<int> >  A;
+
+void func(A& vt){
+    std::vector<int> v(10);
+    v[1]=10;
+    vt.push_back(v);
+    v[1]=5;
+}
+
+
+
+int main(){
+    A vt;
+    func(vt);
+    func(vt);
+    func(vt);
+    for(auto v1: vt){
+        for(auto v: v1)
+            cout << v << " ";
+        cout << endl;
+    }
+}
+
+Output
+
+0 10 0 0 0 0 0 0 0 0 
+0 10 0 0 0 0 0 0 0 0 
+0 10 0 0 0 0 0 0 0 0
+
